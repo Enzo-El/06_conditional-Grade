@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!---Student Name: Lorenzo Laurel Reyes--->
+    <!---Class Batch: WD92P (ZetoRo)---------->
+    <!---Schedule: 7:00pm to 10:00pm---------->
+    <!---Instructor: Ma'am Jamie Delina------->
+    <!---Coordinator: Sir Ben De Leon--------->
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Grade Calculator (Conditional Statement)</title>
+
+        <style>
+            body {
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                text-align: center;
+                margin: 50px;
+            }
+    
+            form {
+                display: grid;
+                gap: 10px;
+                justify-content: center;
+                align-items: center;
+            }
+    
+            label {
+                text-align: right;
+                grid-column: 1; /* Label starts in column 1 */
+            }
+    
+            input {
+                width: 50px;
+                text-align: center;
+                grid-column: 2; /* Input starts in column 2 */
+            }
+    
+            button {
+                margin-top: 10px;
+                padding: 10px;
+            }
+    
+            div {
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    
+    <body>
+        
+        <h2>Kindly enter your grades for nine (9) subjects below:</h2>
+        
+        <form id="gradeForm">
+            <!---Grade Input for "Science" Subject--->
+            <label for="science"><strong>Science:</strong> </label>
+            <input type="number" id="science" required>
+            <br /><br />
+            
+            <!---Grade Input for "Mathematics" Subject--->
+            <label for="math"><strong>Mathematics:</strong> </label>
+            <input type="number" id="math" required>
+
+            <br /><br />
+
+            <!---Grade Input for "English" Subject--->
+            <label for="english"><strong>English:</strong> </label>
+            <input type="number" id="english" required>
+
+            <br /><br />
+
+            <!---Grade Input for "Filipino" Subject--->
+            <label for="filipino"><strong>Filipino:</strong> </label>
+            <input type="number" id="filipino" required>
+
+            <br /><br />
+
+            <!---Grade Input for "Sibika at Kultura" Subject--->
+            <label for="sibikaAtKultura"><strong>Sibika at Kultura:</strong> </label>
+            <input type="number" id="sibikaAtKultura" required>
+
+            <br /><br />
+
+            <!---Grade Input for "P.E." Subject--->
+            <label for="pe"><strong>P.E.:</strong> </label>
+            <input type="number" id="pe" required>
+
+            <br /><br />
+
+            <!---Grade Input for "G.M.R.C." Subject--->
+            <label for="gmrc"><strong>G.M.R.C.:</strong> </label>
+            <input type="number" id="gmrc" required>
+
+            <br /><br />
+
+            <!---Grade Input for "Computer Literacy" Subject--->
+            <label for="computerLiteracy"><strong>Computer Literacy:</strong> </label>
+            <input type="number" id="computerLiteracy" required>
+
+            <br /><br />
+
+            <!---Grade Input for "Arts & Music" Subject--->
+            <label for="artsAndMusic"><strong>Arts & Music:</strong> </label>
+            <input type="number" id="artsAndMusic" required>
+
+            <br /><br />
+    
+            <button type="button" onclick="calculateGrades()">Calculate</button>
+        </form>
+
+        <div id="result"></div>
+
+
+        <script>
+            //  This function accepts and gets the grades that the user will input.
+            function calculateGrades() {
+                const grades = {
+                    Science: parseFloat(document.getElementById('science').value),
+                    Mathematics: parseFloat(document.getElementById('math').value),
+                    English: parseFloat(document.getElementById('english').value),
+                    Filipino: parseFloat(document.getElementById('filipino').value),
+                    Sibika_At_Kultura: parseFloat(document.getElementById('sibikaAtKultura').value),
+                    PE: parseFloat(document.getElementById('pe').value),
+                    GMRC: parseFloat(document.getElementById('gmrc').value),
+                    Computer_Literacy: parseFloat(document.getElementById('computerLiteracy').value),
+                    Arts_and_Music: parseFloat(document.getElementById('artsAndMusic').value)
+                };
+
+                //  This condition will check/validate if grades being input are valid and will return the appropriate display.
+                if (validGrades(grades)) {
+        
+                    //  This declares the variable where the calculated general weighted average will be stored for display.
+                    const average = calculateAverage(grades);
+
+                    //  The display of results depends on the user's grade input.
+                    displayResult(grades, average);
+                    } else {
+                        alert("Invalid grade input. Please enter valid grades.");
+                }
+            }
+
+            //  This function will check if each grade is a "valid" number.
+            function validGrades(grades) {
+                for (const subject in grades) {
+                    if (isNaN(grades[subject]) || grades[subject] < 0 || grades[subject] > 100) {
+                        return false;
+                    }
+                }
+      
+                return true;
+            }
+
+            //  This function calculates the general weighted average of all grades.    
+            function calculateAverage(grades) {
+                const total = Object.values(grades).reduce((acc, grade) => acc + grade, 0);
+                return total / Object.keys(grades).length;
+            }
+
+            //  This function is responsible for the display of the results.
+            function displayResult(grades, average) {
+                let gradeResult = "<h2>Your grades were as follows:</h2>";
+
+                //  This will display the individual grades.
+                for (const subject in grades) {
+                    gradeResult += `<p>${subject}: ${grades[subject]}</p>`;
+                }
+
+                //  This will display the general weighted average.
+                gradeResult += `<h2>General Weighted Average is: ${average.toFixed(2)}</h2>`;
+
+                //  This condition will evaluate and display the letter grade based on the general weighted average range specified below.
+                gradeResult += "<h2>Equivalent Grade:</h2>";
+                
+                if (average >= 91 && average <= 100) {
+                    gradeResult += "<p>A++</p><p>Excellent</p>";
+                    } else if (average >= 85 && average <= 90) {
+                        gradeResult += "<p>A</p><p>Very Good</p>";
+                    } else if (average >= 80 && average <= 84) {
+                        gradeResult += "<p>B</p><p>Good</p>";
+                    } else if (average >= 75 && average <= 79) {
+                        gradeResult += "<p>C</p><p>Fair</p>";
+                    } else if (average >= 70 && average <= 74) {
+                        gradeResult += "<p>D</p><p>Aral pa more!</p>";
+                    } else if (average >= 65 && average <= 69) {
+                        gradeResult += "<p>E</p><p>Naloko na!</p>";
+                    } else if (average >= 0 && average <= 64) {
+                        gradeResult += "<p>Student has failed</p>";
+                    } else {
+                        gradeResult += "<p>Invalid Grade Input</p>";
+                    }
+
+                //  This displays the overall results contained on the gradeResult variable.
+                document.getElementById('result').innerHTML = gradeResult;
+            }
+        </script>
+    </body>
+</html>
